@@ -5,7 +5,20 @@ import logging
 import torch
 import json
 import time
+from transformers import LayoutLMv3Model, LayoutLMv3Config
 
+def load_quantized_model(model_path):
+    
+    assert model_path.endswith("pt") == True
+
+  # Initializing a LayoutLMv2 microsoft/layoutlmv2-base-uncased style configuration
+  configuration = LayoutLMv3Config()
+
+  # Initializing a model from the microsoft/layoutlmv2-base-uncased style configuration
+  model = LayoutLMv3Model(configuration)
+  model.load_state_dict(torch.load(model_path))
+  model.eval()
+  return model
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +82,7 @@ class ModelHandler(object):
             hf_pipeline (Pipeline): A Hugging Face Transformer pipeline.
         """
         # TODO model dir should be microsoft/layoutlmv2-base-uncased
-        model = load_model(model_dir)
+        model = load_quantized_model(model_dir)
         return model
 
     def inference(self, model_input):
