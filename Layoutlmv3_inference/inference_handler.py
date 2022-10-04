@@ -17,6 +17,7 @@ def load_quantized_model(model_path):
     model = LayoutLMv3Model(configuration)
     model.load_state_dict(torch.load(model_path))
     model.eval()
+    print(type(model))
     return model
 
 logger = logging.getLogger(__name__)
@@ -82,6 +83,7 @@ class ModelHandler(object):
         """
         # TODO model dir should be microsoft/layoutlmv2-base-uncased
         model = load_quantized_model(model_dir)
+        print(type(model))
         return model
 
     def inference(self, model_input):
