@@ -4,7 +4,7 @@ from PIL import Image,ImageDraw, ImageFont
 import logging
 import torch
 import json
-
+import time
 
 
 logger = logging.getLogger(__name__)
@@ -172,7 +172,10 @@ class ModelHandler(object):
         :param context: mms context
         """
         model_input = self.preprocess(data)
+        start = time.time()
         model_out = self.inference(model_input)
+        end = time.time()
+        print(f"Exection Time: {end - start}")
         inference_out = self.postprocess(model_out)[0]
         with open('LayoutlMV3InferenceOutput.json', 'w') as inf_out:
             inf_out.write(inference_out)
